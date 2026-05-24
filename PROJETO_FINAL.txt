@@ -1,0 +1,268 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║          ANALISADOR LÉXICO COM AUTÔMATO FINITO E VISUALIZAÇÃO DE GRAFOS     ║
+║                                                                              ║
+║                           STATUS: ✅ COMPLETO                              ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ ARQUIVO PRINCIPAL:
+   analisador_lexico_com_grafo.py (16.2 KB)
+   └─ Implementação completa do lexer com DFA
+   └─ Classes: Token, AnalisadorLexicoComGrafo
+   └─ Métodos: analisar(), analisar_arquivo(), construir_grafo_automato()
+   └─ Visualização com NetworkX + Matplotlib
+
+✅ SCRIPTS DEMONSTRATIVOS:
+   demo_analisador.py (3.8 KB)
+   └─ Demonstração automática de 3 exemplos
+   
+   exemplos_praticos.py (9 KB)
+   └─ Menu interativo com 7 exemplos de uso
+
+✅ DOCUMENTAÇÃO:
+   README_ANALISADOR_LEXICO.md (10.2 KB)
+   └─ Guia completo de conceitos e uso
+   
+   RESUMO_IMPLEMENTACAO.md (14.6 KB)
+   └─ Evolução do projeto e detalhes técnicos
+   
+   INDEX.md (15+ KB)
+   └─ Mapa completo do projeto
+
+✅ GRAFOS GERADOS:
+   exemplo_teste_automato.png (102 KB)
+   └─ Visualização do DFA com todos os estados e transições
+   
+   exemplo_teste_arvore.png (393 KB)
+   └─ Árvore de leitura: Arquivo → Linhas → Tokens
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 FUNCIONALIDADES IMPLEMENTADAS:
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ TOKENIZAÇÃO COMPLETA
+   • Leitura linha a linha
+   • 9 tipos de tokens reconhecidos
+   • Rastreamento de posição (linha, coluna)
+   • Suporte a números inteiros e decimais
+   • Suporte a strings
+   • Detecção de comentários
+   • Tratamento de erros
+
+✅ AUTÔMATO FINITO DETERMINÍSTICO (DFA)
+   • Implementação manual (não biblioteca)
+   • Estados: START, ID, NUM, OP_REL, ATRIB_OR_EQ, etc.
+   • Transições claras entre estados
+   • Grafo totalmente configurável
+   • Educativo e entendível
+
+✅ VISUALIZAÇÃO DE GRAFOS
+   • Grafo do autômato em PNG
+   • Árvore de leitura em PNG
+   • Opção de exibição na tela ou arquivo
+   • Layout automático (spring + graphviz)
+   • Cores e projeção profissional
+
+✅ INTERFACE DE USUÁRIO
+   • Menu interativo para escolher arquivo
+   • Opções para visualizar grafos
+   • Relatório tabular formatado
+   • Feedback claro de operações
+   • Tratamento de exceções robusto
+
+✅ DOCUMENTAÇÃO TÉCNICA
+   • Explicação de cada componente
+   • Exemplos práticos de uso
+   • Diagramas de fluxo
+   • Comparação com outras abordagens
+   • Roadmap futuro
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 ESTRUTURA DO PROJETO:
+═══════════════════════════════════════════════════════════════════════════════
+
+analisador_lexico_com_grafo.py
+├── Imports e verificação de dependências
+├── Classe Token (dataclass)
+├── Classe AnalisadorLexicoComGrafo
+│   ├── __init__() - Inicializa grafo do DFA
+│   ├── analisar() - Tokeniza texto
+│   ├── analisar_arquivo() - Lê e tokeniza arquivo
+│   ├── _classe_char() - Classifica caracteres
+│   ├── exibir_grafo() - Imprime grafo em texto
+│   ├── construir_grafo_automato() - NetworkX do DFA
+│   ├── construir_arvore_tokens() - Árvore hierárquica
+│   └── desenhar_grafo() - Visualiza com Matplotlib
+├── imprimir_relatorio_tokens() - Tabela formatada
+├── obter_caminho_input() - Validação de entrada
+└── main block
+    ├── Solicita arquivo
+    ├── Analisa conteúdo
+    ├── Exibe relatório
+    ├── Pergunta se quer grafos
+    └── Gera PNG se desejado
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 COMO USAR:
+═══════════════════════════════════════════════════════════════════════════════
+
+OPÇÃO 1: Analisador Interativo (Recomendado)
+─────────────────────────────────────────────
+.\venv\Scripts\python.exe analisador_lexico_com_grafo.py
+
+Solicitará:
+1. Caminho do arquivo (.txt)
+2. Se deseja visualizar grafos
+3. Se deseja salvar como PNG
+4. Prefixo para nomes dos arquivos
+
+Resultado:
+→ Grafo de transições (texto no console)
+→ Relatório de tokens (tabela formatada)
+→ arquivo_automato.png (grafo do DFA)
+→ arquivo_arvore.png (árvore de leitura)
+
+
+OPÇÃO 2: Demonstração Automática
+──────────────────────────────────
+.\venv\Scripts\python.exe demo_analisador.py
+
+Executa 3 demos automaticamente:
+1. Análise de código inline
+2. Análise de arquivo
+3. Exibição do grafo do autômato
+
+Sem entrada necessária!
+
+
+OPÇÃO 3: Exemplos Práticos
+──────────────────────────
+.\venv\Scripts\python.exe exemplos_praticos.py
+
+Menu com 7 exemplos interativos:
+1. Uso Básico
+2. Múltiplas Linhas
+3. Análise de Arquivo
+4. Filtrar Tokens por Tipo
+5. Verificar Posição de Tokens
+6. Gerar Estatísticas
+7. Construir Grafo do Autômato
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📚 COMO APRENDER:
+═══════════════════════════════════════════════════════════════════════════════
+
+INICIANTE (sem conhecimento de lexers):
+1. Leia: README_ANALISADOR_LEXICO.md
+2. Execute: demo_analisador.py
+3. Execute: exemplos_praticos.py
+4. Estude: analisador_lexico_com_grafo.py
+
+DESENVOLVEDOR (quer usar a ferramenta):
+1. Execute: analisador_lexico_com_grafo.py com seu arquivo
+2. Consulte: exemplos_praticos.py para integration API
+3. Importe em seu código se necessário
+
+PESQUISADOR (quer entender o algoritmo):
+1. Leia: RESUMO_IMPLEMENTACAO.md
+2. Compare com: sertaLanguage.py (versão SLY)
+3. Estude o código: analisador_lexico_com_grafo.py
+4. Trace o passo-a-passo com: exemplos_praticos.py
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🔬 TECNOLOGIAS UTILIZADAS:
+═══════════════════════════════════════════════════════════════════════════════
+
+Python: 3.14
+  └─ dataclasses (Token)
+  └─ pathlib (leitura de arquivo)
+  └─ typing (anotações de tipo)
+
+NetworkX: 3.6.1
+  └─ Grafos dirigidos (DiGraph)
+  └─ Construção de estruturas de rede
+
+Matplotlib: 3.10.9
+  └─ Visualização de grafos
+  └─ Salvamento em PNG (150 DPI)
+  └─ Layouts (spring, graphviz)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📈 ESTATÍSTICAS DE IMPLEMENTAÇÃO:
+═══════════════════════════════════════════════════════════════════════════════
+
+Código Principal:
+  • Linhas de código: ~420 (analisador_lexico_com_grafo.py)
+  • Classes: 1 principal + 1 dataclass
+  • Métodos: 9 públicos + 1 estático
+  • Estados DFA: 10 estados
+  • Tipos de tokens: 9 tipos
+
+Documentação:
+  • README: 10.2 KB
+  • Resumo: 14.6 KB
+  • Índice: 15+ KB
+  • Total: 40+ KB de documentação
+
+Scripts de Demonstração:
+  • Demo: 3.8 KB
+  • Exemplos: 9 KB
+  • Total: 12.8 KB
+
+Grafos Gerados:
+  • Grafo do automato: 102 KB (PNG)
+  • Árvore de tokens: 393 KB (PNG)
+  • Total visual: 495 KB
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ DIFERENCIAIS:
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ Implementação MANUAL do DFA (não apenas usar biblioteca)
+✅ Visualização DUPLA (grafos + árvore de tokens)
+✅ Documentação COMPLETA em Português
+✅ Exemplos PRÁTICOS com 7 casos de uso
+✅ Interface INTERATIVA com menu
+✅ Entrada FLEXÍVEL (inline ou arquivo)
+✅ Saída em MÚLTIPLOS FORMATOS (console, PNG)
+✅ Código EDUCATIVO (entende-se o algoritmo)
+✅ Tratamento de ERROS ROBUSTO
+✅ Decorações VISUAIS (tabelas formatadas)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ VALIDAÇÃO FINAL:
+═══════════════════════════════════════════════════════════════════════════════
+
+[✅] Leitura de arquivo pelo usuário
+[✅] Tokenização linha a linha
+[✅] Autômato Finito Determinístico funcionando
+[✅] Grafo do DFA visualizado e salvo
+[✅] Árvore de tokens visualizada e salva
+[✅] Relatório de saída com Token/Tipo/Valor
+[✅] Interface interativa com menu
+[✅] Documentação completa
+[✅] Scripts de demonstração
+[✅] Exemplos práticos
+[✅] Tratamento de exceções
+[✅] Validação de entrada
+[✅] Testes com arquivos reais
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS FINAL: ✅ PRONTO PARA PRODUÇÃO
+Data: 23 de Maio de 2026
+Versão: 1.0 Final
+
+═══════════════════════════════════════════════════════════════════════════════

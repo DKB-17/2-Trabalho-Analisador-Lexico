@@ -1,0 +1,18 @@
+Receita principal(){[
+    Trem cheio a, b, c Uai
+    
+    a = 10 Uai
+    b = 20 Uai
+    
+    Falatu (a) Uai
+    
+    Sepa (a miúdo b) {[
+        c = a + b Uai
+        Falatu (c) Uai
+    ]} Uai
+    
+    Vorta (c lapa 0) {[
+        Falatu (c) Uai
+        c = c - 1 Uai
+    ]} Uai
+]}

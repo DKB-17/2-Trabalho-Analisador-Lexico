@@ -1,0 +1,6 @@
+Receita principal() {[
+Trem cheio x = 10 Uai
+Trem quebrado y = 5 Uai
+z = x + y Uai
+resultado = z * 2 Uai
+]}
