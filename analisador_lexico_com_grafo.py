@@ -56,7 +56,10 @@ class AnalisadorLexicoComGrafo:
         "uai",
     }
 
-    OPERADORES: Set[str] = {"+", "-", "*", "/", "=", "<", ">"}
+    OPERADORES_ATRIBUICAO: Set[str] = {"="}
+    OPERADORES_ARITMETICOS: Set[str] = {"+", "-", "*", "/"}
+    OPERADORES_RELACIONAIS: Set[str] = {"<", ">"}
+    OPERADORES: Set[str] = OPERADORES_ATRIBUICAO | OPERADORES_ARITMETICOS | OPERADORES_RELACIONAIS
     DELIMITADORES: Set[str] = {"(", ")", "{", "}", ",", ";"}
 
     def __init__(self) -> None:
@@ -187,8 +190,20 @@ class AnalisadorLexicoComGrafo:
                     coluna += 1
                     continue
 
-                if c in self.OPERADORES:
-                    tokens.append(Token("OPERADORES", c, inicio_linha, inicio_coluna))
+                if c in self.OPERADORES_ATRIBUICAO:
+                    tokens.append(Token("OPERADOR_ATRIBUICAO", c, inicio_linha, inicio_coluna))
+                    i += 1
+                    coluna += 1
+                    continue
+
+                if c in self.OPERADORES_ARITMETICOS:
+                    tokens.append(Token("OPERADOR_ARITMETICO", c, inicio_linha, inicio_coluna))
+                    i += 1
+                    coluna += 1
+                    continue
+
+                if c in self.OPERADORES_RELACIONAIS:
+                    tokens.append(Token("OPERADOR_RELACIONAL", c, inicio_linha, inicio_coluna))
                     i += 1
                     coluna += 1
                     continue

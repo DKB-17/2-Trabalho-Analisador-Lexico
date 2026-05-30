@@ -4,15 +4,15 @@ Receita principal(){[
     a = 10 Uai
     b = 20 Uai
     
-    Falatu (a) Uai
+    Fala_tu (a) Uai
     
-    Sepa (a miúdo b) {[
+    Sepa (a < b) {[
         c = a + b Uai
-        Falatu (c) Uai
+        Fala_tu (c) Uai
     ]} Uai
     
-    Vorta (c lapa 0) {[
-        Falatu (c) Uai
+    Vorta (c > 0) {[
+        Fala_tu (c) Uai
         c = c - 1 Uai
     ]} Uai
 ]}
