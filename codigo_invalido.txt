@@ -1,3 +1,5 @@
-cheio x = 10
-Trem quebrado y = 5
+Receita principal() {[
+Trem cheio x = 10
+Tre quebrado y = 5
 z = x + y
+]}
