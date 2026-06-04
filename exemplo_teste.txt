@@ -1,9 +1,0 @@
-Receita principal() {[
-Trem cheio x = 10
-Trem quebrado y = 5
-z = x + y
-resultado = z * 2
-teste = 15 pau_a_pau 15
-condicao = 10 miudo 20
-valor = 7 - 3 + 2
-]}
