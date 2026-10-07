@@ -1,17 +1,17 @@
+import sys 
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, scrolledtext 
 import re
 
 # =========================================================
-# 1. CLASSE DO ANALISADOR LÉXICO (O Motor)
+# 1. CLASSE DO ANALISADOR LÉXICO 
 # =========================================================
 class LexerSertaLanguage:
     def __init__(self):
-        # Palavras Reservadas da linguagem
+        
         self.palavras_reservadas = {
-            'Receita', 'Trem', 'Bisbilhota', 'fala_tu', 'Fala_tu', 
-            'entrega', 'meteope', 'Sepa', 'hum', 'Hum', 'vixe', 'Vixe', 'Vorta',
-            'Dá o grito' # Adicionado conforme seu PDF de exemplo
+            'Receita', 'receita', 'Trem', 'trem', 'Bisbilhota', 'bisbilhota','fala_tu', 'Fala_tu', 
+            'meteope', 'Meteope', 'Sepa', 'sepa','hum', 'Hum', 'vixe', 'Vixe', 'Vorta', 'vorta'
         }
         
         # Tipos de Dados da linguagem
@@ -25,7 +25,7 @@ class LexerSertaLanguage:
         # Regras Regex
         self.regras_tokens = [
             ('ESCOPO', r'\{\[|\]\}'),               
-            ('TERMINADOR', r'(?i)uai'),             
+            ('TERMINAL', r'(?i)uai'),             
             ('OP_RELACIONAL', r'<=|>=|==|<|>'),     
             ('OP_ATRIBUICAO', r'='),                
             ('OP_ARITMETICO', r'[+\-*/]'),          
@@ -47,7 +47,7 @@ class LexerSertaLanguage:
         lista_tokens = []
         
         print("\n" + "="*50)
-        print("III) RESULTADO GERADO PELO ANALISADOR LEXICO")
+        print("I) RESULTADO GERADO PELO ANALISADOR LEXICO")
         print("="*50 + "\n")
         
         for numero_linha, linha in enumerate(linhas):
@@ -67,7 +67,7 @@ class LexerSertaLanguage:
                 tipo_final = ""
                 
                 if tipo_regex == 'PALAVRA':
-                    # Verifica se é uma palavra composta que está nas regras (como "Dá o grito")
+                    
                     if valor in self.palavras_reservadas:
                         tipo_final = "Palavra Reservada"
                     elif valor in self.tipos_dados:
@@ -85,7 +85,13 @@ class LexerSertaLanguage:
                     tipo_final = "Operador Aritmético"
                 elif tipo_regex == 'OP_RELACIONAL':
                     tipo_final = "Operador Relacional"
-                elif tipo_regex in ['ESCOPO', 'TERMINADOR', 'CARACTERE_ESP']:
+                elif tipo_regex == 'OP_LOGICO':
+                    tipo_final = "Operador Lógico"
+                elif tipo_regex == 'ESCOPO':
+                    tipo_final = "Escopo"
+                elif tipo_regex == 'TERMINAL':
+                    tipo_final = "Terminal"
+                elif tipo_regex == 'CARACTERE_ESP':
                     tipo_final = "Caractere Especial"
                 elif tipo_regex == 'DESCONHECIDO':
                     tipo_final = "ERRO LÉXICO"
@@ -95,7 +101,6 @@ class LexerSertaLanguage:
 
                 print(f"Linha {numero_linha} | Token: {valor} -> {tipo_final}")
                 
-                # ---> MUDANÇA AQUI: Guardamos o token no formato de dicionário <---
                 lista_tokens.append({
                     'valor': valor,
                     'tipo': tipo_final,
@@ -108,28 +113,67 @@ class LexerSertaLanguage:
 
 
 # =========================================================
-# 2. CLASSE DA INTERFACE (O Visual)
+# 3. CLASSE DA INTERFACE (A Mini-IDE)
 # =========================================================
 class Interface:
     def __init__(self, janela_principal):
         self.janela = janela_principal
-        self.janela.title("Analisador Léxico - SertaLanguage")
-        self.janela.geometry("400x200")
-
-        # ---> AQUI É O PONTO DE CONEXÃO 1 <---
-        # Instanciamos o nosso Lexer real em vez do falso
+        self.janela.title("SertaLanguage IDE - Analisador")
+        self.janela.geometry("900x500") 
         self.lexer = LexerSertaLanguage() 
         self.caminho_selecionado = ""
 
-        # Desenho da tela
-        self.label_info = tk.Label(self.janela, text="Nenhum arquivo selecionado.")
-        self.label_info.pack(pady=20)
+        # --- 1. PAINEL SUPERIOR (Botões de Ação) ---
+        frame_top = tk.Frame(self.janela)
+        frame_top.pack(fill=tk.X, padx=10, pady=10)
 
-        self.botao_selecionar = tk.Button(self.janela, text="1. Escolher Arquivo", command=self.escolher_arquivo)
-        self.botao_selecionar.pack(pady=5)
+        self.botao_selecionar = tk.Button(frame_top, text="📂 1. Escolher Arquivo", command=self.escolher_arquivo)
+        self.botao_selecionar.pack(side=tk.LEFT, padx=5)
 
-        self.botao_enviar = tk.Button(self.janela, text="2. Analisar Código", command=self.enviar_arquivo)
-        self.botao_enviar.pack(pady=5)
+        self.botao_enviar = tk.Button(frame_top, text="🚀 2. Analisar Código", command=self.enviar_arquivo)
+        self.botao_enviar.pack(side=tk.LEFT, padx=5)
+
+        self.label_info = tk.Label(frame_top, text="Nenhum arquivo selecionado.")
+        self.label_info.pack(side=tk.LEFT, padx=15)
+
+        # --- 2. PAINEL CENTRAL 
+        frame_meio = tk.PanedWindow(self.janela, orient=tk.HORIZONTAL)
+        frame_meio.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+
+        frame_codigo = tk.LabelFrame(frame_meio, text="Código Fonte (.txt)")
+        self.area_codigo = scrolledtext.ScrolledText(frame_codigo, width=40, font=("Courier", 10))
+        self.area_codigo.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_meio.add(frame_codigo)
+
+        frame_saida = tk.LabelFrame(frame_meio, text="Console de Compilação")
+        self.area_saida = scrolledtext.ScrolledText(frame_saida, width=50, font=("Consolas", 10), bg="#1E1E1E", fg="#00FF00")
+        self.area_saida.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_meio.add(frame_saida)
+
+        class RedirecionadorPrint:
+            def __init__(self, widget):
+                self.widget = widget
+
+                
+                self.widget.tag_config("verde", foreground="#00FF00")     
+                self.widget.tag_config("vermelho", foreground="#FF5555")  
+                self.widget.tag_config("amarelo", foreground="#FFD700")   
+
+
+            def write(self, texto):
+                if "ERRO" in texto or "Erro" in texto or "[ERRO]" in texto:
+                    self.widget.insert(tk.END, texto, "vermelho")
+                
+                elif "RESULTADO" in texto or "===" in texto or "Resumo" in texto:
+                    self.widget.insert(tk.END, texto, "amarelo")
+                
+                else:
+                    self.widget.insert(tk.END, texto, "verde")
+                    
+                self.widget.see(tk.END) 
+            def flush(self): pass
+
+        sys.stdout = RedirecionadorPrint(self.area_saida)
 
     def escolher_arquivo(self):
         caminho = filedialog.askopenfilename(
@@ -139,30 +183,36 @@ class Interface:
         if caminho:
             self.caminho_selecionado = caminho
             nome_arquivo = caminho.split('/')[-1] 
-            self.label_info.config(text=f"Arquivo pronto: {nome_arquivo}")
+            self.label_info.config(text=f"Arquivo selecionado: {nome_arquivo}")
+            
+            try:
+                with open(caminho, 'r', encoding='utf-8') as arquivo:
+                    conteudo = arquivo.read()
+                self.area_codigo.delete('1.0', tk.END) 
+                self.area_codigo.insert(tk.END, conteudo) 
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao ler arquivo: {e}")
 
     def enviar_arquivo(self):
-        if self.caminho_selecionado == "":
-            messagebox.showwarning("Aviso", "Por favor, selecione um arquivo primeiro!")
+        conteudo_codigo = self.area_codigo.get('1.0', tk.END).strip()
+
+        if conteudo_codigo == "":
+            messagebox.showwarning("Aviso", "O código fonte está vazio. Selecione um arquivo ou digite algo.")
             return
 
-        # ---> AQUI É O PONTO DE CONEXÃO 2 <---
-        # Lemos o arquivo e passamos o conteúdo direto para o Lexer
+        self.area_saida.delete('1.0', tk.END)
+
         try:
-            with open(self.caminho_selecionado, 'r', encoding='utf-8') as arquivo:
-                conteudo_codigo = arquivo.read()
-
-            lista_de_tokens = self.lexer.analisar(conteudo_codigo)  # Recebe a lista de tokens do Lexer
-
+            lista_de_tokens = self.lexer.analisar(conteudo_codigo)
+            
+            # 2. Sintático (Ativado!)
             #sintatico = AnalisadorSintatico(lista_de_tokens)
-
             #sintatico.analisar()
             
-            messagebox.showinfo("Sucesso", "Análise concluída!\nVerifique o terminal/console para ver os resultados detalhados.")
-            
         except Exception as erro:
-            messagebox.showerror("Erro", f"Falha ao tentar ler o arquivo.\nErro: {erro}")
+            print(f"\nERRO FATAL NA COMPILAÇÃO:\n{erro}")
 
+            
 # =========================================================
 # 2. CLASSE DO ANALISADOR SINTÁTICO
 # =========================================================
